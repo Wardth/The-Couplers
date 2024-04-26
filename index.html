@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Smells Examples</title>
+    <link rel="stylesheet" href="/Style/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Code Smells : Couplers</h1>
+      <p>
+        Couplers pada bad code smell merujuk pada situasi di mana terdapat
+        ketergantungan yang berlebihan antara komponen-komponen atau kelas-kelas
+        dalam sebuah sistem perangkat lunak. Contohnya adalah pola-pola seperti
+        Feature Envy, Inappropriate Intimacy, Message Chains, dan Middle Man,.
+        Ketergantungan berlebihan semacam ini dapat mengurangi fleksibilitas dan
+        membuat kode sulit dipahami serta sulit untuk dimodifikasi dengan aman.
+      </p>
+      <div class="button-container">
+        <a
+          href="feature_envy.html"
+          class="button feature-envy"
+          onclick="toggleClicked(this)"
+          >Feature Envy</a
+        >
+        <a
+          href="inappropriate_intimacy.html"
+          class="button inappropriate-intimacy"
+          onclick="toggleClicked(this)"
+          >Inappropriate Intimacy</a
+        >
+        <a
+          href="message_chains.html"
+          class="button message-chains"
+          onclick="toggleClicked(this)"
+          >Message Chains</a
+        >
+        <a
+          href="middle_man.html"
+          class="button middle-man"
+          onclick="toggleClicked(this)"
+          >Middle Man</a
+        >
+      </div>
+    </div>
+
+    <script src="/Js/index.js"></script>
+  </body>
+</html>

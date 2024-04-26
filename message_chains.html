@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Smells Examples</title>
+    <link rel="stylesheet" href="/Style/messageStyle.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Code Smells : Couplers</h1>
+      <p>
+        Couplers pada bad code smell merujuk pada situasi di mana terdapat
+        ketergantungan yang berlebihan antara komponen-komponen atau kelas-kelas
+        dalam sebuah sistem perangkat lunak. Contohnya adalah pola-pola seperti
+        Feature Envy, Inappropriate Intimacy, Message Chains, dan Middle Man,.
+        Ketergantungan berlebihan semacam ini dapat mengurangi fleksibilitas dan
+        membuat kode sulit dipahami serta sulit untuk dimodifikasi dengan aman.
+      </p>
+      <div class="button-container">
+        <a
+          href="feature_envy.html"
+          class="button feature-envy"
+          onclick="toggleClicked(this)"
+          >Feature Envy</a
+        >
+        <a
+          href="inappropriate_intimacy.html"
+          class="button"
+          onclick="toggleClicked(this)"
+          >Inappropriate Intimacy</a
+        >
+        <a
+          href="message_chains.html"
+          class="button message-chains"
+          onclick="toggleClicked(this)"
+          >Message Chains</a
+        >
+        <a
+          href="middle_man.html"
+          class="button middle-man"
+          onclick="toggleClicked(this)"
+          >Middle Man</a
+        >
+      </div>
+
+      <h1>Message Chains</h1>
+      <div class="image-container">
+        <img src="/image/message-chains.png" alt="message chains Image" />
+        <p>
+          Smell ini terjadi ketika ingin mengakses sebuah method, perlu
+          melakukan panggilan dari hasil return method lainnya sehingga
+          membentuk sebuah rantai
+        </p>
+      </div>
+
+      <h1>Example</h1>
+      <p>
+        Dalam contoh ini, metode utama membuat objek Employee dan kemudian
+        memanggil serangkaian metode (getDepartment(), getManager(), getName())
+        di dalamnya. Hal ini menciptakan message chain, di mana setiap
+        pemanggilan metode bergantung pada nilai kembalian dari pemanggilan
+        metode sebelumnya. Solusinya adalah dengan memutuskan message chain
+        dengan mengenalkan variabel atau metode perantara
+      </p>
+      <h3>Before Refactoring</h3>
+      <pre>
+      <code>
+        class Department {
+          private Employee manager;
+      
+          public Employee getManager() {
+              return manager;
+          }
+      }
+      
+      class Employee {
+          private String name;
+          private Department department;
+      
+          public Employee(String name, Department department) {
+              this.name = name;
+              this.department = department;
+          }
+      
+          public Department getDepartment() {
+              return department;
+          }
+      }
+      
+      public class MessageChainExample {
+          public static void main(String[] args) {
+              Department department = new Department();
+              Employee employee = new Employee("John", department);
+      
+              // Message chain
+              String managerName = employee.getDepartment().getManager().getName();
+              System.out.println("Manager's name: " + managerName);
+          }
+      }
+      
+      </code>
+    </pre>
+      <br />
+      <h3>After Refactoring</h3>
+      <pre>
+      <code>
+        public class NoMessageChainExample {
+          public static void main(String[] args) {
+              Department department = new Department();
+              Employee employee = new Employee("John", department);
+      
+              // No message chain
+              Department employeeDepartment = employee.getDepartment();
+              Employee manager = employeeDepartment.getManager();
+              String managerName = manager.getName();
+              System.out.println("Manager's name: " + managerName);
+          }
+      }
+      
+      </code>
+    </pre>
+    </div>
+
+    <script src="/Js/index.js"></script>
+  </body>
+</html>

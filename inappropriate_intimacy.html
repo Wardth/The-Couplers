@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Smells Examples</title>
+    <link rel="stylesheet" href="/Style/inappropriateStyle.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Code Smells : Couplers</h1>
+      <p>
+        Couplers pada bad code smell merujuk pada situasi di mana terdapat
+        ketergantungan yang berlebihan antara komponen-komponen atau kelas-kelas
+        dalam sebuah sistem perangkat lunak. Contohnya adalah pola-pola seperti
+        Feature Envy, Inappropriate Intimacy, Message Chains, dan Middle Man,.
+        Ketergantungan berlebihan semacam ini dapat mengurangi fleksibilitas dan
+        membuat kode sulit dipahami serta sulit untuk dimodifikasi dengan aman.
+      </p>
+      <div class="button-container">
+        <a
+          href="feature_envy.html"
+          class="button feature-envy"
+          onclick="toggleClicked(this)"
+          >Feature Envy</a
+        >
+        <a
+          href="inappropriate_intimacy.html"
+          class="button inappropriate-intimacy"
+          onclick="toggleClicked(this)"
+          >Inappropriate Intimacy</a
+        >
+        <a
+          href="message_chains.html"
+          class="button message-chains"
+          onclick="toggleClicked(this)"
+          >Message Chains</a
+        >
+        <a
+          href="middle_man.html"
+          class="button middle-man"
+          onclick="toggleClicked(this)"
+          >Middle Man</a
+        >
+      </div>
+
+      <h1>Inappropriate Intimacy</h1>
+      <div class="image-container">
+        <img
+          src="/image/inappropriate-intimacy.png"
+          alt="inappropriate intimacy Image"
+        />
+        <p>
+          Smell ini terjadi karena hubungan antar class yang terlalu intim yang
+          menyebabkan class yang satu mengeksploitasi internal field dan/atau
+          method di class lain.
+        </p>
+      </div>
+
+      <h1>Example</h1>
+      <p>
+        Pada contoh ini, class Car sangat bergantung dengan class Engine. Class
+        car memiliki access langsung pada bagian internal class Engine
+        (isRunning). Solusinya adalah dengan menyembunyikan status internal
+        class Engine.
+      </p>
+      <h3>Before Refactoring</h3>
+      <pre>
+      <code>
+        class Engine {
+          private boolean isRunning;
+      
+          public void start() {
+              isRunning = true;
+              System.out.println("Engine started");
+          }
+      
+          public void stop() {
+              isRunning = false;
+              System.out.println("Engine stopped");
+          }
+      
+          public boolean isRunning() {
+              return isRunning;
+          }
+      }
+      
+      class Car {
+          private Engine engine;
+      
+          public Car() {
+              this.engine = new Engine();
+          }
+      
+          public void startCar() {
+              engine.start();
+          }
+      
+          public void stopCar() {
+              engine.stop();
+          }
+      
+          // Inappropriate intimacy
+          public boolean isEngineRunning() {
+              return engine.isRunning();
+          }
+      }
+           
+      </code>
+    </pre>
+      <br />
+      <h3>After Refactoring</h3>
+      <pre>
+      <code>
+        class Engine {
+          private boolean isRunning;
+      
+          public void start() {
+              isRunning = true;
+              System.out.println("Mesin dihidupkan");
+          }
+      
+          public void stop() {
+              isRunning = false;
+              System.out.println("Mesin dimatikan");
+          }
+      
+          public boolean isRunning() {
+              return isRunning;
+          }
+      }
+      
+      class Car {
+          private Engine engine;
+      
+          public Car() {
+              this.engine = new Engine();
+          }
+      
+          public void startCar() {
+              engine.start();
+          }
+      
+          public void stopCar() {
+              engine.stop();
+          }
+      
+          // Solusi: Hapus keterkaitan yang tidak sesuai
+          // Gunakan method untuk diquerykan
+          public boolean isCarRunning() {
+              return engine.isRunning();
+          }
+      }
+      
+      </code>
+    </pre>
+    </div>
+
+    <script src="/Js/index.js"></script>
+  </body>
+</html>

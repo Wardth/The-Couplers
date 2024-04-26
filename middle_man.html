@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Smells Examples</title>
+    <link rel="stylesheet" href="/Style/middleStyle.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Code Smells : Couplers</h1>
+      <p>
+        Couplers pada bad code smell merujuk pada situasi di mana terdapat
+        ketergantungan yang berlebihan antara komponen-komponen atau kelas-kelas
+        dalam sebuah sistem perangkat lunak. Contohnya adalah pola-pola seperti
+        Feature Envy, Inappropriate Intimacy, Message Chains, dan Middle Man,.
+        Ketergantungan berlebihan semacam ini dapat mengurangi fleksibilitas dan
+        membuat kode sulit dipahami serta sulit untuk dimodifikasi dengan aman.
+      </p>
+      <div class="button-container">
+        <a
+          href="feature_envy.html"
+          class="button feature-envy"
+          onclick="toggleClicked(this)"
+          >Feature Envy</a
+        >
+        <a
+          href="inappropriate_intimacy.html"
+          class="button"
+          onclick="toggleClicked(this)"
+          >Inappropriate Intimacy</a
+        >
+        <a
+          href="message_chains.html"
+          class="button"
+          onclick="toggleClicked(this)"
+          >Message Chains</a
+        >
+        <a
+          href="middle_man.html"
+          class="button middle-man"
+          onclick="toggleClicked(this)"
+          >Middle Man</a
+        >
+      </div>
+
+      <h1>Middle Man</h1>
+      <div class="image-container">
+        <img src="/image/middle-man.png" alt="middle man Image" />
+        <p>
+          Middle Man adalah class yang isinya hanya delegasi saja, sehingga
+          tidak ada behavior lain selain delegasi ke class lain.
+        </p>
+      </div>
+
+      <h1>Example</h1>
+      <p>
+        Dalam contoh ini, class Manager berperan sebagai middle man dengan
+        mendelegasikan metode doWork() kepada class Worker tanpa adanya tambahan
+        logic atau fungsi lainnya. Cara menyelesaikannya adalah dengan menghapus
+        middle man.
+      </p>
+
+      <h3>Before Refactoring</h3>
+      <pre>
+      <code>
+        class Manager {
+          private Worker worker;
+      
+          public Manager() {
+              this.worker = new Worker();
+          }
+      
+          public void doWork() {
+              worker.doWork();
+          }
+      }
+      
+      class Worker {
+          public void doWork() {
+              System.out.println("Worker is doing the work");
+          }
+      }
+      
+      </code>
+    </pre>
+      <br />
+      <h3>After Refactoring</h3>
+      <pre>
+      <code>
+        class Worker {
+          public void doWork() {
+              System.out.println("Worker is doing the work");
+          }
+      }
+      
+      </code>
+    </pre>
+    </div>
+
+    <script src="/Js/index.js"></script>
+  </body>
+</html>
